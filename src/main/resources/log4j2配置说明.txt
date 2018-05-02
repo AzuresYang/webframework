@@ -1,0 +1,29 @@
+设置web.xml
+
+Servlet 3.0或更高版本是无需配置web.xml的，它默认指定配置文件应命名为log4j2.xml，并要求放置在classpath中，所以在maven项目里，只要在resources目录下新建log4j2.xml文件即可，否则要设置
+
+<context-param>
+    <param-name>log4jConfiguration</param-name>
+    <param-value>classpath:config/log4j2.xml</param-value>
+</context-param>
+1
+2
+3
+4
+如果项目还是基于Servlet 2.x的，官方声明上Log4j2是不支持Servlet 3.0以下版本的，网上有教程称设置监听器和过滤器，这里给出其参考配置
+
+<listener>
+    <listener-class>org.apache.logging.log4j.web.Log4jServletFilter
+</listener>
+<filter>
+    <filter-name>log4jServletFilter</filter-name>
+    <filter-class>org.apache.logging.log4j.web.Log4jServletFilter</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>log4jServletFilter</filter-name>
+    <url-pattern>/*<url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+</filter-mapping>
